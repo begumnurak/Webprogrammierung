@@ -4,6 +4,7 @@
   "description": "Öffne als aller erstes die Startseite im Browser und der Rest erklärt sich schon wie von selbst :)",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,5 +22,8 @@
     "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
     "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }
