@@ -4,9 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Rezepte <%= category %></title>
+        <link href="/dist/output.css" rel="stylesheet">
     </head>
 
-    <main>
+    <main class="bg-red-600">
         <h1>Rezepte <%= category %></h1>
         <% recipes.forEach(function(recipe) { %>
             <%- include('../partials/recipe', {recipe: recipe}); %>
