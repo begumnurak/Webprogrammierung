@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Rezepte <%= category %></title>
+    </head>
+
+    <main>
+        <h1>Rezepte <%= category %></h1>
+        <% recipes.forEach(function(recipe) { %>
+            <%- include('../partials/recipe', {recipe: recipe}); %>
+        <% }); %>
+    </main>
+
+</html>

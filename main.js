@@ -23,7 +23,21 @@ app.set('views', path.join(__dirname + '/views'));
 app.use('/', express.static('public'));
 
 app.get('/test', (req, res) => {
-  res.send('aaaa');
+  let category = "Süß";
+  let recipes = [
+      {title:"Lecker Wasser",
+      ingredients:"Warmes Wasser, kaltes Wasser, Eis",
+      instructions:"Warmes Wasser mit kaltem Wasser mischen, dann zusammen aufkochen, zum Schluss mit dem Eis hübsch anrichten und servieren",
+      needed_time:"Nicht sooo lang"},
+      {title:"Lecker Wasser",
+      ingredients:"Warmes Wasser, kaltes Wasser, Eis",
+      instructions:"Warmes Wasser mit kaltem Wasser mischen, dann zusammen aufkochen, zum Schluss mit dem Eis hübsch anrichten und servieren",
+      needed_time:"Nicht sooo lang"}
+    ];
+  res.render('pages/recipe_page', {
+    category: category,
+    recipes: recipes
+  });
 });
 
 app.post('/form/', (req, res) => {
