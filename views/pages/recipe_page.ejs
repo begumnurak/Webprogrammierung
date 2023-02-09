@@ -7,11 +7,14 @@
         <link href="/dist/output.css" rel="stylesheet">
     </head>
 
-    <main class="bg-red-600">
-        <h1>Rezepte <%= category %></h1>
-        <% recipes.forEach(function(recipe) { %>
-            <%- include('../partials/recipe', {recipe: recipe}); %>
-        <% }); %>
+    <main class="">
+        <h1 class="font-bold text-2xl ">Rezepte <%= category %></h1>
+        <p>Hier sind alle Rezepte der Kategorie <%= category %> aufgelistet.</p>
+        <div id="recipes-container" class="flex flex-row flex-wrap justify-evenly">
+            <% recipes.forEach(function(recipe) { %>
+                <%- include('../partials/recipe', {recipe: recipe}); %>
+            <% }); %>
+        </div>
     </main>
 
 </html>

@@ -1,6 +1,17 @@
-<div class="bg-blue-400">
-    <h2><%= recipe.title %></h2>
-    <p><%= recipe.needed_time %></p>
-    <p><%= recipe.ingredients %></p>
-    <p><%= recipe.instructions %></p>
+<div class="rounded-lg bg-green-500 max-w-lg p-1 m-1">
+    <h2 class="font-bold text-center text-xl"><%= recipe.title %></h2>
+    <div class="grid grid-cols-3 gap-2">
+        <div class="">
+            <h3 class="text-center font-bold mb-1">Dauer</h3>
+            <p><%= recipe.needed_time %></p>
+        </div>
+        <div class="">
+            <h3 class="text-center font-bold mb-1">Zutaten</h3>
+            <p><%= recipe.ingredients %></p>
+        </div>
+        <div class="">
+            <h3 class="text-center font-bold mb-1">Zubereitung</h3>
+            <p><%= recipe.instructions %></p>
+        </div>
+    </div>
 </div>
