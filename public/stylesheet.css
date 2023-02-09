@@ -1,0 +1,32 @@
+#category {
+    grid-template-rows: [header] 30px [recipe-container] auto [footer]30px;
+    /* e.g. 
+        min-content 1fr min-content
+        100px 1fr max-content
+    */
+}
+
+#index-grid {
+    grid-template-rows: [header] 30px [main] auto [footer]30px;
+    /* e.g. 
+        min-content 1fr min-content
+        100px 1fr max-content
+    */
+}
+
+
+.recipe-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+}
+
+.recipe {
+    max-width: 30rem;
+    width: 100%;
+    margin: 3em;
+}
+
+
