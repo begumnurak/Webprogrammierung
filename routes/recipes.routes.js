@@ -1,6 +1,6 @@
 module.exports = function(app, db) {
 
-    app.get('/test/:category', (req, res) => {
+    app.get('/recipes/:category', (req, res) => {
         var sql = "SELECT * FROM recipes, categories WHERE rec_category_id = cat_id AND cat_name = ? ORDER BY rec_title";
         var params = [req.params.category];
         db.all(sql, params, (err, rows) => {

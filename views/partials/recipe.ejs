@@ -1,15 +1,20 @@
 <div class="rounded-lg bg-green-500 max-w-lg w-full p-1 m-1">
     <h2 class="font-bold text-center text-xl"><%= recipe.rec_title %></h2>
-    <div class="grid grid-cols-3 gap-2">
+    <div class="grid grid-cols-2 gap-2">
         <div class="">
             <h3 class="text-center font-bold mb-1">Dauer</h3>
-            <p><%= recipe.rec_needed_time %></p>
+            <p class="text-center"><%= recipe.rec_needed_time %></p>
         </div>
-        <div class="">
+        <div class="grid justify-center">
             <h3 class="text-center font-bold mb-1">Zutaten</h3>
-            <p><%= recipe.rec_ingredients %></p>
+            <ul class="list-disc">
+            <% let ingredients = recipe.rec_ingredients.split(',');
+            ingredients.forEach(function(ingredient) { %>
+                <li><%= ingredient %></li>
+            <% }); %>
+            </ul>
         </div>
-        <div class="">
+        <div class="col-span-2 m-1">
             <h3 class="text-center font-bold mb-1">Zubereitung</h3>
             <p><%= recipe.rec_instructions %></p>
         </div>

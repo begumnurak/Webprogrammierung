@@ -24,6 +24,7 @@ app.set('views', path.join(__dirname + '/views'));
 app.use('/', express.static('public'));
 
 require('./routes/recipes.routes')(app, db);
+require('./routes/landing_page.routes')(app, db);
 
 app.post('/form/', (req, res) => {
   console.log(req.body)

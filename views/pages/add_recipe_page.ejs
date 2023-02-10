@@ -9,7 +9,7 @@
 
     <main class="grid grid-cols-2">
         <p class="col-span-2 m-1">Hier kannst du Rezepte hinzufügen.</p>
-        <form action="/add_recipe" method="POST" class="col-span-1 grid grid-cols-2 w-fit m-2">
+        <form action="/add_recipe" method="POST" class="h-fit col-span-1 grid grid-cols-2 w-fit m-2">
             <label class="col-span-1">Titel des Rezeptes</label>
             <input type="text" name="title" class="border m-0.5 col-span-1 rounded-lg p-0.5 bg-gray-200" required>
             <label class="col-span-1">Dauer</label>
@@ -26,7 +26,7 @@
             </select>
             <input type="submit" value="Absenden" class="col-span-2 text-center rounded-lg p-1 bg-red-600 hover:bg-red-700">
         </form>
-        <form action="/add_recipe_json" method="POST" class="col-span-1 grid grid-cols-2 w-fit m-2">
+        <form action="/add_recipe_json" method="POST" class="h-fit col-span-1 grid grid-cols-2 w-fit m-2">
             <label class="col-span-1">Rezept als JSON (title,needed_time,ingredients,instructions)</label>
             <textarea type="text" name="json" class="resize-none h-40 border m-0.5 col-span-1 rounded-lg p-0.5 bg-gray-200" required></textarea>
             <label class="col-span-1">Kategorie</label>
