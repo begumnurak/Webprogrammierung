@@ -6,7 +6,7 @@ const path = require("path");
 var db = require("./database/database.js");
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 //cookie middleware
 app.use(cookieParser());
