@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Startseite </title>
+        <link href="/dist/output.css" rel="stylesheet">
+    </head>
+
+    <header>
+        <img class="float-left mt-2 ml-2" src="./images/hwr_logo.png" height="50px" width="200px">
+        <br> </br>
+    </header>
+
+    <main>
+        <h1 class="text-2xl font-bold p-1 m-2">Willkommen auf dem Rezepte-Forum der HWR &#127837;</h1> 
+        <div>
+            <p class="text-lg p-1 m-2">
+                Auf dieser Seite findest du die beliebtesten und einfachsten Rezepte der Studis aus dem Studiengang Informatik.<br>
+                Von süß bis herzhaft findest du hier, was dein Herz begehrt. Wir sind uns sicher, dass jeder etwas passendes für sich findet :)<br>
+                Die Rezepte sind in "süß" und "herzhaft" kategorisiert.<br>
+                Klicke einfach auf das, worauf du im Moment Lust hast und dir wird die passende Kategorie angezeigt.
+            </p>
+            <h2 class="text-xl font-bold p-1 m-2">Rezepte-Kategorien:</h2>
+            <ul class="p-1 m-2 ml-10 text-xl list-disc">
+            <% categories.forEach(function(category) { %>
+                <li><a class="underline text-blue-600 hover:text-blue-800" href="/recipes/<%= category.cat_name %>"><%= category.cat_name %></a></li>
+            <% }); %>
+            </ul>
+            <a class="underline text-blue-600 hover:text-blue-800 text-xl p-1 m-2" href="/add_recipe">Rezept hinzufügen</a>
+        </div> 
+    </main>
+</html>
