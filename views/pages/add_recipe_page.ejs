@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Rezepte hinzufügen</title>
+        <link href="/dist/output.css" rel="stylesheet">
+    </head>
+
+    <main class="">
+        <p>Hier kannst du Rezepte hinzufügen.</p>
+        <form action="/add_recipe" method="POST" class="grid grid-cols-2 w-fit m-2">
+            <label class="col-span-1">Titel des Rezeptes</label>
+            <input type="text" name="title" class="border m-0.5 col-span-1 rounded-lg p-0.5 bg-gray-200">
+            <label class="col-span-1">Dauer</label>
+            <input type="text" name="needed_time" class="border m-0.5 col-span-1 rounded-lg p-0.5 bg-gray-200">
+            <label class="col-span-1">Zutaten (Komma-separiert)</label>
+            <textarea type="text" name="ingredients" class="resize-none h-40 border m-0.5 col-span-1 rounded-lg p-0.5 bg-gray-200"></textarea>
+            <label class="col-span-1">Anweisungen</label>
+            <textarea type="text" name="instructions" class="resize-none h-40 border m-0.5 col-span-1 rounded-lg p-0.5 bg-gray-200"></textarea>
+            <label class="col-span-1">Kategorie</label>
+            <select name="category" class="rounded-lg border m-0.5 col-span-1 p-0.5 bg-gray-200">
+                <% categories.forEach(function(category) { %>
+                    <option value="<%= category.cat_id %>" id="<%= category.cat_id %>"><%= category.cat_name %></option>
+                <% }); %>
+            </select>
+            <input type="submit" value="Absenden" class="col-span-2 text-center rounded-lg p-1 bg-red-600 hover:bg-red-700">
+        </form>
+    </main>
+
+</html>

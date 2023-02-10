@@ -16,24 +16,17 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         console.log('Connected to the SQLite database.');
         db.run(`CREATE TABLE recipes (
             rec_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            rec_category_id INTEGER,
-            rec_title text, 
-            rec_needed_time text,
-            rec_instructions text,
-            rec_ingredients text
+            rec_category_id INTEGER NOT NULL,
+            rec_title text NOT NULL, 
+            rec_needed_time text NOT NULL,
+            rec_instructions text NOT NULL,
+            rec_ingredients text NOT NULL
             )`,
         (err) => {
             if (err) {
                 // Table already created
-            }else{
-                // Table just created, creating some rows
-                var sql = 'INSERT INTO recipes (rec_title, rec_needed_time, rec_instructions, rec_ingredients, rec_category_id) VALUES (?,?,?,?,?)';
-                for (let i = 0; i < 10; i++) {
-                    db.run(sql, ["Süßes Wasser","Nicht sooo lang","Warmes Wasser mit kaltem Wasser mischen, dann zusammen aufkochen, zum Schluss mit dem Eis hübsch anrichten und servieren","Warmes Wasser, kaltes Wasser, Eis","1"]);
-                }
-                for (let i = 0; i < 5; i++) {
-                    db.run(sql, ["Herzhaftes Wasser","Nicht sooo lang","Warmes Wasser mit kaltem Wasser mischen, dann zusammen aufkochen, zum Schluss mit dem Eis hübsch anrichten und servieren","Warmes Wasser, kaltes Wasser, Eis","2"]);
-                }
+            } else {
+                // Table just created
             }
         });
         db.run(`CREATE TABLE categories (
