@@ -10,7 +10,7 @@ npm install
 ```
 npm run dev
 ```
-Aufrufbar im Browser über ```localhost:/8080```.
+Aufrufbar im Browser über ```localhost:/3001```.
 
 ### Tailwind-Build-Prozess starten:
 ```
