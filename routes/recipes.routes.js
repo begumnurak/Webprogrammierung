@@ -12,7 +12,7 @@ module.exports = function(app, db) {
                 res.status(400).send(`Es wurden keine Rezepte zur Kategorie "${req.params.category}" gefunden.`);
                 return;
             }
-            res.render('pages/recipe_page', {
+            res.render('pages/recipe_category_page', {
                 category: req.params.category,
                 recipes: rows
             });
@@ -64,5 +64,23 @@ module.exports = function(app, db) {
         } else {
             res.status(400).json({ "error": "empty parameters" });
         }
+    });
+
+    app.get('/recipe/:recipe', (req, res) => {
+        var sql = "SELECT * FROM recipes WHERE rec_title = ?";
+        var params = [req.params.recipe];
+        db.all(sql, params, (err, rows) => {
+            if (err) {
+                res.status(400).json({"error":err.message});
+                return;
+            }
+            if (rows.length < 1) {
+                res.status(400).send(`Es wurde kein Rezepte namens "${req.params.recipe}" gefunden.`);
+                return;
+            }
+            res.render('pages/recipe', {
+                recipe: rows[0]
+            });
+        });
     });
 }

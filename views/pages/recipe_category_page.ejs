@@ -12,7 +12,7 @@
         <p>Hier sind alle Rezepte der Kategorie <%= category %> aufgelistet.</p>
         <div id="recipes-container" class="flex flex-row flex-wrap justify-evenly">
             <% recipes.forEach(function(recipe) { %>
-                <%- include('../partials/recipe', {recipe: recipe}); %>
+                <%- include('../partials/recipe_preview', {recipe: recipe}); %>
             <% }); %>
         </div>
     </main>
