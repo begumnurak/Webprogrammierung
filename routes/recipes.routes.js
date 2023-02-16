@@ -1,7 +1,7 @@
 module.exports = function(app, db) {
 
     app.get('/recipes/:category', (req, res) => {
-        var sql = "SELECT * FROM recipes, categories WHERE rec_category_id = cat_id AND cat_name = ? ORDER BY rec_title";
+        var sql = "SELECT * FROM recipes, categories WHERE rec_cat_id = cat_id AND cat_name = ? ORDER BY rec_title";
         var params = [req.params.category];
         db.all(sql, params, (err, rows) => {
             if (err) {
@@ -34,7 +34,7 @@ module.exports = function(app, db) {
     });
 
     app.post('/add_recipe', (req, res) => {
-        var sql = "INSERT INTO recipes (rec_title, rec_ingredients, rec_needed_time, rec_instructions, rec_category_id) VALUES (?,?,?,?,?)";
+        var sql = "INSERT INTO recipes (rec_title, rec_ingredients, rec_needed_time, rec_instructions, rec_cat_id) VALUES (?,?,?,?,?)";
         if (req.body.title && req.body.needed_time && req.body.instructions && req.body.ingredients && req.body.category) {
             var params = [req.body.title, req.body.ingredients, req.body.needed_time, req.body.instructions, req.body.category];
             db.run(sql, params, (err) => {
@@ -50,7 +50,7 @@ module.exports = function(app, db) {
     });
 
     app.post('/add_recipe_json', (req, res) => {
-        var sql = "INSERT INTO recipes (rec_title, rec_ingredients, rec_needed_time, rec_instructions, rec_category_id) VALUES (?,?,?,?,?)";
+        var sql = "INSERT INTO recipes (rec_title, rec_ingredients, rec_needed_time, rec_instructions, rec_cat_id) VALUES (?,?,?,?,?)";
         if (req.body.json && req.body.category) {
             let json = JSON.parse(req.body.json);
             var params = [json.title, json.ingredients, json.needed_time, json.instructions, req.body.category];

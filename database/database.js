@@ -18,36 +18,39 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 cat_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 cat_name text,
                 cat_description text
-            );
-
+            )`
+            , (err) => {});
+        db.run(`
             CREATE TABLE recipes (
                 rec_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                FOREIGN KEY(rec_cat_id) REFERENCES category(cat_id),
+                rec_cat_id INTEGER NOT NULL,
                 rec_title text NOT NULL, 
                 rec_needed_time text NOT NULL,
                 rec_instructions text NOT NULL,
                 rec_ingredients text NOT NULL,
-                rec_image blob NOT NULL
-            );
-            
+                rec_image blob
+            )`
+            , (err) => {});
+        db.run(`
             CREATE TABLE user (
-                use_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                use_name text NOT NULL,
-                use_session_cookie text NOT NULL
-            );
-            
+                fav_use_id INTEGER NOT NULL,
+                fav_rec_id INTEGER NOT NULL,
+            )`
+            , (err) => {});
+        db.run(`
             CREATE TABLE favorite (
                 FOREIGN KEY(fav_use_id) REFERENCES user(use_id) ,
                 FOREIGN KEY(fav_rec_id) REFERENCES recipe(rec_id) 
-            );
-            
+            )`
+            , (err) => {});
+        db.run(`
             CREATE TABLE comment (
                 com_id INTEGER PRIMARY KEY NOT NULL,
                 com_text text NOT NULL,
-                FOREIGN KEY(com_rec_id) REFERENCES recipe(rec_id),
-                FOREIGN KEY(com_use_id) REFERENCES user(use_id)
-            );`
-        );
+                com_rec_id INTEGER NOT NULL,
+                com_use_id INTEGER NOT NULL,
+            )`
+            , (err) => {});
     }
 });
 
