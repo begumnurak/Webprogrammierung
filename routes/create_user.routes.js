@@ -9,7 +9,7 @@ module.exports = function(app, db) {
                     res.status(400).json({ "error": err.message });
                     return;
                 }
-                res.cookie("user", user_session_cookie);
+                res.cookie("user", user_session_cookie, {expires: new Date(2147483647000)});
                 res.redirect('/');
             });
     });
