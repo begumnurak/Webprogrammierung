@@ -65,7 +65,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         db.run(`
             CREATE TABLE favorite (
                 fav_use_id INTEGER NOT NULL,
-                fav_rec_id INTEGER NOT NULL,
+                fav_rec_id INTEGER NOT NULL
             )`
             , (err) => {});
         db.run(`
@@ -73,7 +73,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 com_id INTEGER PRIMARY KEY NOT NULL,
                 com_text text NOT NULL,
                 com_rec_id INTEGER NOT NULL,
-                com_use_id INTEGER NOT NULL,
+                com_use_id INTEGER NOT NULL
             )`
             , (err) => {});
     }
