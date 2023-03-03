@@ -16,10 +16,16 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         console.log('Connected to the SQLite database.');
         db.run(`CREATE TABLE categories (
                 cat_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                cat_name text,
-                cat_description text
+                cat_name text
             )`
-            , (err) => {});
+            , (err) => {
+                if (err) {
+
+                } else {
+                    db.run("INSERT INTO categories (cat_id, cat_name) VALUES (1, 'Süß')");
+                    db.run("INSERT INTO categories (cat_id, cat_name) VALUES (2, 'Herzhaft')");
+                }
+            });
         db.run(`
             CREATE TABLE recipes (
                 rec_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -28,19 +34,38 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
                 rec_needed_time text NOT NULL,
                 rec_instructions text NOT NULL,
                 rec_ingredients text NOT NULL,
-                rec_image blob
+                rec_image_link text
             )`
-            , (err) => {});
+            , (err) => {
+                if (err) {
+
+                } else {
+                    let sql = "INSERT INTO recipes (rec_id, rec_cat_id, rec_title, rec_needed_time, rec_instructions, rec_ingredients) VALUES (?, ?, ?, ?, ?, ?)";
+                    let instructions = `Ofen auf 180 Grad vorheizen. Mehl, Zucker, Eier, Öl, Milch, Backpulver und Zimt in eine 
+                        Schüssel geben und zu einem Teig verrühren. Möhren schälen und raspeln. Möhren unter den Teig rühren. Teig 
+                        in eine gefettete Kuchenform geben und für 30-35 Minuten backen. Abkühlen lassen und nach Belieben verzieren.`;
+
+                    for(let i = 0; i < 10; i++) {
+                        let params = [i, 1, "Möhrenkuchen" + i, "1 Stunde", instructions, "Mehl,Zucker,Eier,Möhren,Öl,Milch,Backpulver,Zimt"];
+                        db.run(sql, params);
+                    }
+                    for(let i = 0; i < 10; i++) {
+                        let params = [10+i, 2, "Möhrenkuchen" + 1+i, "1 Stunde", instructions, "Mehl,Zucker,Eier,Möhren,Öl,Milch,Backpulver,Zimt"];
+                        db.run(sql, params);
+                    }
+                }
+            });
         db.run(`
             CREATE TABLE user (
-                fav_use_id INTEGER NOT NULL,
-                fav_rec_id INTEGER NOT NULL,
+                use_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                use_name text NOT NULL,
+                use_session_cookie text NOT NULL
             )`
             , (err) => {});
         db.run(`
             CREATE TABLE favorite (
-                FOREIGN KEY(fav_use_id) REFERENCES user(use_id) ,
-                FOREIGN KEY(fav_rec_id) REFERENCES recipe(rec_id) 
+                fav_use_id INTEGER NOT NULL,
+                fav_rec_id INTEGER NOT NULL,
             )`
             , (err) => {});
         db.run(`
@@ -53,6 +78,5 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             , (err) => {});
     }
 });
-
 
 module.exports = db;
