@@ -1,3 +1,5 @@
+const visits = {};
+
 module.exports = function(app, db) {
 
     app.get('/recipes/:category', (req, res) => {
@@ -66,9 +68,23 @@ module.exports = function(app, db) {
         }
     });
 
+    app.get('/recipe/most_viewed', (req, res) => {
+        let most_viewed = [];
+        if(req.cookies.user && visits[req.cookies.user]) {
+            let visitedRecipes = Object.entries(visits[req.cookies.user]).sort((a,b) => a[1] - b[1]);
+            most_viewed = (visitedRecipes.slice(0, 5));
+        }
+        res.status(200).json({
+            most_viewed: most_viewed
+        });
+    });
+
     app.get('/recipe/:recipe', (req, res) => {
         var sql = "SELECT * FROM recipes WHERE rec_title = ?";
         var params = [req.params.recipe];
+
+
+
         db.all(sql, params, (err, rows) => {
             if (err) {
                 res.status(400).json({"error":err.message});
@@ -77,6 +93,10 @@ module.exports = function(app, db) {
             if (rows.length < 1) {
                 res.status(400).send(`Es wurde kein Rezepte namens "${req.params.recipe}" gefunden.`);
                 return;
+            }
+            if(req.cookies.user) {
+                if(!visits[req.cookies.user]) visits[req.cookies.user] = {};
+                visits[req.cookies.user][req.params.recipe] ? visits[req.cookies.user][req.params.recipe] += 1 : visits[req.cookies.user][req.params.recipe] = 1;
             }
             res.render('pages/recipe', {
                 recipe: rows[0]
