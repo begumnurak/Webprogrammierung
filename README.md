@@ -8,15 +8,16 @@
 docker build -t rezepte .
 ```
 ```
-docker run -p 3001:3001 -it rezepte ```
+docker run -p 3001:3001 -it rezepte
+```
 (interakiv)
-
 
 oder
 
-
 ```
-docker run -p 3001:3001 -dt rezepte``` (im Hintergrund)
+docker run -p 3001:3001 -dt rezepte
+``` 
+(im Hintergrund)
 
 ### Dependencies installieren:
 ```
