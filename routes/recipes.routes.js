@@ -1,5 +1,7 @@
 module.exports = function(app, db) {
 
+    const comments = {};
+
     app.get('/recipes/:category', (req, res) => {
         var sql = "SELECT * FROM recipes, categories WHERE rec_cat_id = cat_id AND cat_name = ? ORDER BY rec_title";
         var params = [req.params.category];
@@ -66,6 +68,19 @@ module.exports = function(app, db) {
         }
     });
 
+
+    app.post('/add_recipe_comment', (req, res) => {
+        if (req.body.comment && req.body.recipe) {
+
+            if(!comments[req.body.recipe]) comments[req.body.recipe] = [];
+            comments[req.body.recipe].push(req.body.comment);
+            console.log(comments)
+            res.status(302).header("location", req.headers["referer"]).json({});
+        } else {
+            res.status(400).json({ "error": "empty parameters" });
+        }
+    });
+
     app.get('/recipe/:recipe', (req, res) => {
         var sql = "SELECT * FROM recipes WHERE rec_title = ?";
         var params = [req.params.recipe];
@@ -79,7 +94,8 @@ module.exports = function(app, db) {
                 return;
             }
             res.render('pages/recipe', {
-                recipe: rows[0]
+                recipe: rows[0],
+                comments: comments[rows[0].rec_id] ? comments[rows[0].rec_id] : []
             });
         });
     });
