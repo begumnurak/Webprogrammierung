@@ -4,7 +4,7 @@
 
 ### Production starten
 
-docker build -t rezepte .
+`docker build -t rezepte .`
 
 `docker run -p 3001:3001 -it rezepte` (interactive)
 oder
