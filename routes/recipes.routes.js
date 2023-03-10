@@ -33,6 +33,24 @@ module.exports = function(app, db) {
         });
     });
 
+    app.post('/add_recipe_to_favorites', (req, res) => {
+        var sql = "INSERT INTO favorite (fav_use_id, fav_rec_id) VALUES (?,?)";
+        console.log(req.body);
+        if (req.body.fav_use_id && req.body.fav_rec_id) {
+            var params = [req.body.fav_use_id, req.body.fav_rec_id];
+            db.run(sql, params, (err) => {
+                if (err) {
+                    res.status(400).json({"error": err.message});
+                    return;
+                }
+                //res.redirect('/add_recipe');
+            })
+        }
+    });
+
+    //need to access user id to send a favorites post request and a get favorites request to database
+    // to do: give user_id as param to post request, add get request, change button functionality based on whether recipe is already in favorites (change to un-favoritize), add filter function to categories page to show favorite recipes
+
     app.post('/add_recipe', (req, res) => {
         var sql = "INSERT INTO recipes (rec_title, rec_ingredients, rec_needed_time, rec_instructions, rec_cat_id) VALUES (?,?,?,?,?)";
         if (req.body.title && req.body.needed_time && req.body.instructions && req.body.ingredients && req.body.category) {
