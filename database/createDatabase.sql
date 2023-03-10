@@ -26,10 +26,3 @@ CREATE TABLE favorite (
     FOREIGN KEY(fav_use_id) REFERENCES user(use_id) ,
     FOREIGN KEY(fav_rec_id) REFERENCES recipe(rec_id) 
 );
-
-CREATE TABLE comment (
-    com_id INTEGER PRIMARY KEY NOT NULL,
-    com_text text NOT NULL,
-    FOREIGN KEY(com_rec_id) REFERENCES recipe(rec_id),
-    FOREIGN KEY(com_use_id) REFERENCES user(use_id)
-);
