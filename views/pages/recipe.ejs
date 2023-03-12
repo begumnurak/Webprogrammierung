@@ -29,11 +29,20 @@
             </div>
         </div>
         <br>
-        <form method="post" action="/add_recipe_to_favorites">
-            <input name="recipe" id="recipe" value="<%= recipe.rec_id %>" type="text" hidden>
-            <input name="user" id="user" value="<%= user %>" type="text" hidden>
-            <button class="col-span-2 text-center rounded-lg p-1 bg-red-600 hover:bg-red-700" type="submit">Zu Favoriten hinzufügen</button>
-        </form>
+        <% if (favorite) {%>
+            <form method="post" action="/add_recipe_to_favorites">
+                <input name="recipe" id="recipe" value="<%= recipe.rec_id %>" type="text" hidden>
+                <input name="user" id="user" value="<%= user %>" type="text" hidden>
+                <button class="col-span-2 text-center rounded-lg p-1 bg-red-600 hover:bg-red-700" type="submit">Zu Favoriten hinzufügen</button>
+            </form>
+        <% }  else { %>
+            <form method="delete" action="/remove_recipe_from_favorites">
+                <input name="recipe" id="recipe" value="<%= recipe.rec_id %>" type="text" hidden>
+                <input name="user" id="user" value="<%= user %>" type="text" hidden>
+                <button class="col-span-2 text-center rounded-lg p-1 bg-red-600 hover:bg-red-700" type="submit">Von Favoriten entfernen</button>
+            </form>
+        <% }%>
+
     </main>
 
 </html>
