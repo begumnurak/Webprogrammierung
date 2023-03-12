@@ -85,20 +85,38 @@ module.exports = function(app, db) {
     });
 
     app.get('/recipe/:recipe', (req, res) => {
-        var sql = "SELECT * FROM recipes WHERE rec_title = ?";
-        var params = [req.params.recipe];
+        var sql = "SELECT * FROM user WHERE use_session_cookie = ?";
+        var params = [req.cookies.user];
         db.all(sql, params, (err, rows) => {
             if (err) {
                 res.status(400).json({"error":err.message});
                 return;
             }
             if (rows.length < 1) {
-                res.status(400).send(`Es wurde kein Rezepte namens "${req.params.recipe}" gefunden.`);
+                res.status(400).send(`Es wurde kein Nutzer mit "${req.params.recipe}" gefunden.`);
                 return;
             }
+            let old_rows = rows;
             res.render('pages/recipe', {
-                recipe: rows[0]
+                recipe: "Möhrenkuchen",
+                user: old_rows[0],
             });
+            /*sql = "SELECT * FROM recipes WHERE rec_title = ?";
+            params = [req.params.recipe];
+            db.all(sql, params, (err, rows) => {
+                if (err) {
+                    res.status(400).json({"error":err.message});
+                    return;
+                }
+                if (rows.length < 1) {
+                    res.status(400).send(`Es wurde kein Rezepte namens "${req.params.recipe}" gefunden.`);
+                    return;
+                }
+                res.render('pages/recipe', {
+                    recipe: rows[0],
+                    user: old_rows[0],
+                });
+            });*/
         });
     });
 }
