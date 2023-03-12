@@ -36,7 +36,7 @@ module.exports = function(app, db) {
     app.post('/add_recipe_to_favorites', (req, res) => {
         var sql = "INSERT INTO favorite (fav_use_id, fav_rec_id) VALUES (?,?)";
         console.log(req.body);
-        if (req.body.fav_use_id && req.body.fav_rec_id) {
+        if (req.body.fav_rec_id && req.body.fav_use_id) {
             var params = [req.body.fav_use_id, req.body.fav_rec_id];
             db.run(sql, params, (err) => {
                 if (err) {
@@ -93,15 +93,11 @@ module.exports = function(app, db) {
                 return;
             }
             if (rows.length < 1) {
-                res.status(400).send(`Es wurde kein Nutzer mit "${req.params.recipe}" gefunden.`);
+                res.status(400).send(`Es wurde kein Nutzer mit "${req.cookies.user}" gefunden.`);
                 return;
             }
             let old_rows = rows;
-            res.render('pages/recipe', {
-                recipe: "Möhrenkuchen",
-                user: old_rows[0],
-            });
-            /*sql = "SELECT * FROM recipes WHERE rec_title = ?";
+            sql = "SELECT * FROM recipes WHERE rec_title = ?";
             params = [req.params.recipe];
             db.all(sql, params, (err, rows) => {
                 if (err) {
@@ -116,7 +112,7 @@ module.exports = function(app, db) {
                     recipe: rows[0],
                     user: old_rows[0],
                 });
-            });*/
+            });
         });
     });
 }
