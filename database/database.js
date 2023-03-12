@@ -59,7 +59,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
             CREATE TABLE user (
                 use_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 use_name text NOT NULL,
-                use_session_cookie text NOT NULL
+                use_session_cookie INTEGER NOT NULL
             )`
             , (err) => {});
         db.run(`
