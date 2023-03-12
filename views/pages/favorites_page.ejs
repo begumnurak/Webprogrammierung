@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Rezepte <%= category %></title>
+        <link href="/dist/output.css" rel="stylesheet">
+    </head>
+
+    <main class="">
+        <h1 class="font-bold text-2xl ">Deine Favoriten</h1>
+        <p>Hier sind favorisierten Rezepte aufgelistet.</p>
+        <div id="recipes-container" class="flex flex-row flex-wrap justify-evenly">
+            <% recipes.forEach(function(recipe) { %>
+                <%- include('../partials/recipe_preview', {recipe: recipe}); %>
+            <% }); %>
+        </div>
+    </main>
+
+</html>
