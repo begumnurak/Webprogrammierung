@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benutzernamen eingeben</title>
+    <link href="/dist/output.css" rel="stylesheet">
+</head>
+
+<body class="h-full bg-gray-700 grid grid-rows-5 justify-center">
+    <main class="grid justify-center bg-zinc-900 p-8 rounded-lg row-start-2 row-end-4 w-min h-min">
+        <p class="text-white text-xl">Bitte erstelle einen Benutzernamen:</p>
+        <form class="justify-center grid" action="/create_user" method="post">
+            <input class="bg-white" type="text" id="username" name="username" required><br>
+            <input class="bg-red-600 hover:bg-red-800 m-2 rounded-lg text-xl" type="submit" value="Erstellen">
+        </form>
+    </main>
+</body>
+
+</html>
