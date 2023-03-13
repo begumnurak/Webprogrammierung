@@ -13,7 +13,7 @@ CREATE TABLE recipes (
     rec_needed_time text NOT NULL,
     rec_instructions text NOT NULL,
     rec_ingredients text NOT NULL,
-    rec_image blob NOT NULL
+    rec_image text NOT NULL
 );
 
 CREATE TABLE user (
