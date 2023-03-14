@@ -9,19 +9,23 @@ const app = express();
 const port = 3001;
 const visits  = {};
 //cookie middleware
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use((req, res, next) => {
-    if(!req.cookies.user) {
-        res.cookie("user", Math.floor(Math.random()*Number.MAX_SAFE_INTEGER));
-    }
-    //console.log(req.cookies);
-    next();
-})
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname + '/views'));
 
 app.use('/', express.static('public'));
+
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+require('./routes/create_user.routes')(app, db);
+
+app.use((req, res, next) => {
+    if(!req.cookies.user) {
+      res.render('pages/create_user', {});
+    } else {
+      next();
+    }
+})
 
 require('./routes/recipes.routes')(app, db, visits);
 require('./routes/landing_page.routes')(app, db);

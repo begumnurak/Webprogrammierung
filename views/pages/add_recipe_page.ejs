@@ -14,6 +14,8 @@
             <input type="text" name="title" class="border m-0.5 col-span-1 rounded-lg p-0.5 bg-gray-200" required>
             <label class="col-span-1">Dauer</label>
             <input type="text" name="needed_time" class="border m-0.5 col-span-1 rounded-lg p-0.5 bg-gray-200" required>
+            <label class="col-span-1">Bild (Link)</label>
+            <input type="url" name="image" class="border m-0.5 col-span-1 rounded-lg p-0.5 bg-gray-200" required></input>
             <label class="col-span-1">Zutaten (Komma-separiert)</label>
             <textarea type="text" name="ingredients" class="resize-none h-40 border m-0.5 col-span-1 rounded-lg p-0.5 bg-gray-200" required></textarea>
             <label class="col-span-1">Anweisungen</label>
@@ -27,7 +29,7 @@
             <input type="submit" value="Absenden" class="col-span-2 text-center rounded-lg p-1 bg-red-600 hover:bg-red-700">
         </form>
         <form action="/add_recipe_json" method="POST" class="h-fit col-span-1 grid grid-cols-2 w-fit m-2">
-            <label class="col-span-1">Rezept als JSON (title,needed_time,ingredients,instructions)</label>
+            <label class="col-span-1">Rezept als JSON (title,needed_time,ingredients,instructions,image)</label>
             <textarea type="text" name="json" class="resize-none h-40 border m-0.5 col-span-1 rounded-lg p-0.5 bg-gray-200" required></textarea>
             <label class="col-span-1">Kategorie</label>
             <select name="category" class="rounded-lg border m-0.5 col-span-1 p-0.5 bg-gray-200">
