@@ -1,6 +1,5 @@
-const visits = {};
 
-module.exports = function(app, db) {
+module.exports = function(app, db, visits) {
 
     app.get('/recipes/:category', (req, res) => {
         var sql = "SELECT * FROM recipes, categories WHERE rec_cat_id = cat_id AND cat_name = ? ORDER BY rec_title";
@@ -33,6 +32,35 @@ module.exports = function(app, db) {
                 categories: rows
             });
         });
+    });
+
+    app.post('/add_recipe_to_favorites', (req, res) => {
+        var sql = "INSERT INTO favorite (fav_use_id, fav_rec_id) VALUES (?,?)";
+        console.log(req.body);
+        if (req.body.fav_rec_id && req.body.fav_use_id) {
+            var params = [req.body.fav_use_id, req.body.fav_rec_id];
+            db.run(sql, params, (err) => {
+                if (err) {
+                    res.status(400).json({"error": err.message});
+                    return;
+                }
+                //res.redirect('/add_recipe');
+            })
+        }
+    });
+
+    app.delete('/remove_recipe_from_favorites', (req, res) => {
+        var sql = "DELETE FROM favorite WHERE fav_rec_id = ? AND fav_use_id = ?";
+        if (req.body.fav_req_id && req.body.fav_use_id) {
+            var params = [req.body.fav_use_id, req.body.fav_req_id];
+            db.run(sql, params, (err) => {
+                if (err) {
+                    res.status(400).json({"error":err.message});
+                    return;
+                }
+                //res.reload();
+            })
+        }
     });
 
     app.post('/add_recipe', (req, res) => {
@@ -80,26 +108,53 @@ module.exports = function(app, db) {
     });
 
     app.get('/recipe/:recipe', (req, res) => {
-        var sql = "SELECT * FROM recipes WHERE rec_title = ?";
-        var params = [req.params.recipe];
-
-
-
+        var sql = "SELECT * FROM user WHERE use_session_cookie = ?";
+        var params = [parseInt(req.cookies.user)];
         db.all(sql, params, (err, rows) => {
             if (err) {
                 res.status(400).json({"error":err.message});
                 return;
             }
             if (rows.length < 1) {
-                res.status(400).send(`Es wurde kein Rezepte namens "${req.params.recipe}" gefunden.`);
+                res.status(400).send(`Es wurde kein Nutzer mit "${req.cookies.user}" gefunden.`);
                 return;
             }
-            if(req.cookies.user) {
+            let user_rows = rows;
+            sql = "SELECT * FROM recipes WHERE rec_title = ?";
+            params = [req.params.recipe];
+            db.all(sql, params, (err, rows) => {
+                if (err) {
+                    res.status(400).json({"error":err.message});
+                    return;
+                }
+                if (rows.length < 1) {
+                    res.status(400).send(`Es wurde kein Rezepte namens "${req.params.recipe}" gefunden.`);
+                    return;
+                }
+
                 if(!visits[req.cookies.user]) visits[req.cookies.user] = {};
                 visits[req.cookies.user][req.params.recipe] ? visits[req.cookies.user][req.params.recipe] += 1 : visits[req.cookies.user][req.params.recipe] = 1;
-            }
-            res.render('pages/recipe', {
-                recipe: rows[0]
+
+                let recipe_rows = rows;
+
+                sql = "SELECT * FROM favorite WHERE rec_id = ?";
+                params = [req.params.recipe.rec_id];
+                var is_favorite = true; 
+                db.all(sql, params, (err, rows) => {
+                    if (err) {
+                        res.status(400).json({"error":err.message});
+                        return;
+                    }
+                    if (rows.length < 1) {
+                        is_favorite = false;
+                        return;
+                    }
+                })
+                res.render('pages/recipe', {
+                    recipe: recipe_rows[0],
+                    user: user_rows[0],
+                    favorite: is_favorite,
+                });
             });
         });
     });
