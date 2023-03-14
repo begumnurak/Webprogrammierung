@@ -36,9 +36,9 @@ module.exports = function(app, db) {
     });
 
     app.post('/add_recipe', (req, res) => {
-        var sql = "INSERT INTO recipes (rec_title, rec_ingredients, rec_needed_time, rec_instructions, rec_cat_id) VALUES (?,?,?,?,?)";
-        if (req.body.title && req.body.needed_time && req.body.instructions && req.body.ingredients && req.body.category) {
-            var params = [req.body.title, req.body.ingredients, req.body.needed_time, req.body.instructions, req.body.category];
+        var sql = "INSERT INTO recipes (rec_title, rec_ingredients, rec_needed_time, rec_instructions, rec_image, rec_cat_id) VALUES (?,?,?,?,?,?)";
+        if (req.body.title && req.body.needed_time && req.body.instructions && req.body.ingredients && req.body.category && req.body.image) {
+            var params = [req.body.title, req.body.ingredients, req.body.needed_time, req.body.instructions, req.body.image, req.body.category];
             db.run(sql, params, (err) => {
                 if (err) {
                     res.status(400).json({ "error": err.message });
@@ -52,10 +52,10 @@ module.exports = function(app, db) {
     });
 
     app.post('/add_recipe_json', (req, res) => {
-        var sql = "INSERT INTO recipes (rec_title, rec_ingredients, rec_needed_time, rec_instructions, rec_cat_id) VALUES (?,?,?,?,?)";
+        var sql = "INSERT INTO recipes (rec_title, rec_ingredients, rec_needed_time, rec_instructions, rec_image, rec_cat_id) VALUES (?,?,?,?,?,?)";
         if (req.body.json && req.body.category) {
             let json = JSON.parse(req.body.json);
-            var params = [json.title, json.ingredients, json.needed_time, json.instructions, req.body.category];
+            var params = [json.title, json.ingredients, json.needed_time, json.instructions, json.image, req.body.category];
             db.run(sql, params, (err) => {
                 if (err) {
                     res.status(400).json({ "error": err.message });
