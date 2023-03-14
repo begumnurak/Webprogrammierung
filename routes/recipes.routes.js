@@ -39,30 +39,32 @@ module.exports = function(app, db, visits) {
     app.post('/add_recipe_to_favorites', (req, res) => {
         var sql = "INSERT INTO favorite (fav_use_id, fav_rec_id) VALUES (?,?)";
         console.log(req.body);
-        if (req.body.fav_rec_id && req.body.fav_use_id) {
-            var params = [req.body.fav_use_id, req.body.fav_rec_id];
+        if (req.body.fav_rec_id && req.cookies.user) {
+            var params = [req.cookies.user, req.body.fav_rec_id];
             db.run(sql, params, (err) => {
                 if (err) {
                     res.status(400).json({"error": err.message});
                     return;
                 }
-                //res.redirect('/add_recipe');
+                res.status(302).header("location", req.headers["referer"]).json({});
             })
         }
     });
 
-    app.delete('/remove_recipe_from_favorites', (req, res) => {
+    app.post('/remove_recipe_from_favorites', (req, res) => {
         var sql = "DELETE FROM favorite WHERE fav_rec_id = ? AND fav_use_id = ?";
-        if (req.body.fav_req_id && req.body.fav_use_id) {
-            var params = [req.body.fav_use_id, req.body.fav_req_id];
+        if (req.body.fav_rec_id !== undefined && req.cookies.user !== undefined) {
+            console.log(req.body, req.cookies);
+            var params = [req.body.fav_rec_id, req.cookies.user];
             db.run(sql, params, (err) => {
                 if (err) {
                     res.status(400).json({"error":err.message});
                     return;
                 }
-                //res.reload();
+                res.status(302).header("location", req.headers["referer"]).json({});
             })
-        }
+        } else res.status(400).json({"error": "no_rec"});
+
     });
 
     app.post('/add_recipe', (req, res) => {
@@ -159,20 +161,21 @@ module.exports = function(app, db, visits) {
                 }
 
                 if(!visits[req.cookies.user]) visits[req.cookies.user] = {};
-                visits[req.cookies.user][req.params.recipe] ? visits[req.cookies.user][req.params.recipe] += 1 : visits[req.cookies.user][req.params.recipe] = 1;
+                visits[req.cookies.user][rows[0].rec_id] ? visits[req.cookies.user][rows[0].rec_id] += 1 : visits[req.cookies.user][rows[0].rec_id] = 1;
 
                 let recipe_rows = rows;
 
                 sql = "SELECT * FROM favorite WHERE fav_rec_id = ? AND fav_use_id = ?";
-                params = [recipe_rows[0].rec_id, user_rows[0].use_id];
-                var is_favorite = true; 
+                params = [recipe_rows[0].rec_id, req.cookies.user];
+                var is_favorite = false; 
                 db.all(sql, params, (err, rows) => {
                     if (err) {
                         res.status(400).json({"error":err.message});
                         return;
                     }
-                    if (rows.length < 1) {
-                        is_favorite = false;
+
+                    if (rows.length > 0) {
+                        is_favorite = true;
                     }
                     
                     res.render('pages/recipe', {
