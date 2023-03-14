@@ -4,13 +4,13 @@ module.exports = function(app, db) {
         let user_session_cookie = Math.floor(Math.random()*Number.MAX_SAFE_INTEGER);
         var sql = "INSERT INTO user (use_name, use_session_cookie) VALUES (?, ?)";
         var params = [req.body.username, user_session_cookie];
-            db.run(sql, params, (err) => {
-                if (err) {
-                    res.status(400).json({ "error": err.message });
-                    return;
-                }
-                res.cookie("user", user_session_cookie, {expires: new Date(2147483647000)});
-                res.redirect('/');
-            });
+        db.run(sql, params, (err) => {
+            if (err) {
+                res.status(400).json({ "error": err.message });
+                return;
+            }
+            res.cookie("user", user_session_cookie, {expires: new Date(2147483647000)});
+            res.redirect('/');
+        });
     });
 }

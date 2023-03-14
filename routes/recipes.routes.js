@@ -73,9 +73,21 @@ module.exports = function(app, db) {
         if (req.body.comment && req.body.recipe) {
 
             if(!comments[req.body.recipe]) comments[req.body.recipe] = [];
-            comments[req.body.recipe].push(req.body.comment);
-            console.log(comments)
-            res.status(302).header("location", req.headers["referer"]).json({});
+
+            const author = "Unbekannt";
+            var sql = "SELECT use_name FROM user WHERE use_session_cookie = ?";
+            var params = [req.cookies.user];
+            db.all(sql, params, (err, rows) => {
+                if (err) {
+                    res.status(400).json({"error":err.message});
+                    return;
+                }
+                comments[req.body.recipe].push({
+                    author: rows[0].use_name,
+                    content: req.body.comment,
+                });
+                res.status(302).header("location", req.headers["referer"]).json({});
+            });
         } else {
             res.status(400).json({ "error": "empty parameters" });
         }

@@ -31,7 +31,7 @@
             <div class="w-1/2 ml-3">
                 <h3 class="text-center font-bold mb-1">Kommentare</h3>
                 <% comments.forEach(function(comment) { %>
-                    <li><%= comment %></li>
+                    <li><%= comment.author %>: <%= comment.content %></li>
                 <% }); %>
                 <form method="post" action="/add_recipe_comment">
                     <input name="comment" id="comment" class="border m-0.5 col-span-1 rounded-lg p-0.5 bg-gray-200" type="text" required>
