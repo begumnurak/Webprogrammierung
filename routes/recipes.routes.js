@@ -1,6 +1,8 @@
 
 module.exports = function(app, db, visits) {
 
+    const comments = {};
+
     app.get('/recipes/:category', (req, res) => {
         var sql = "SELECT * FROM recipes, categories WHERE rec_cat_id = cat_id AND cat_name = ? ORDER BY rec_title";
         var params = [req.params.category];
@@ -107,6 +109,30 @@ module.exports = function(app, db, visits) {
         });
     });
 
+    app.post('/add_recipe_comment', (req, res) => {
+        if (req.body.comment && req.body.recipe) {
+
+            if(!comments[req.body.recipe]) comments[req.body.recipe] = [];
+
+            const author = "Unbekannt";
+            var sql = "SELECT use_name FROM user WHERE use_session_cookie = ?";
+            var params = [req.cookies.user];
+            db.all(sql, params, (err, rows) => {
+                if (err) {
+                    res.status(400).json({"error":err.message});
+                    return;
+                }
+                comments[req.body.recipe].push({
+                    author: rows[0].use_name,
+                    content: req.body.comment,
+                });
+                res.status(302).header("location", req.headers["referer"]).json({});
+            });
+        } else {
+            res.status(400).json({ "error": "empty parameters" });
+        }
+    });
+
     app.get('/recipe/:recipe', (req, res) => {
         var sql = "SELECT * FROM user WHERE use_session_cookie = ?";
         var params = [parseInt(req.cookies.user)];
@@ -137,8 +163,8 @@ module.exports = function(app, db, visits) {
 
                 let recipe_rows = rows;
 
-                sql = "SELECT * FROM favorite WHERE rec_id = ?";
-                params = [req.params.recipe.rec_id];
+                sql = "SELECT * FROM favorite WHERE fav_rec_id = ? AND fav_use_id = ?";
+                params = [recipe_rows[0].rec_id, user_rows[0].use_id];
                 var is_favorite = true; 
                 db.all(sql, params, (err, rows) => {
                     if (err) {
@@ -147,14 +173,15 @@ module.exports = function(app, db, visits) {
                     }
                     if (rows.length < 1) {
                         is_favorite = false;
-                        return;
                     }
+                    
+                    res.render('pages/recipe', {
+                        recipe: recipe_rows[0],
+                        user: user_rows[0],
+                        favorite: is_favorite,
+                        comments: comments[recipe_rows[0].rec_id] ? comments[recipe_rows[0].rec_id] : []
+                    });
                 })
-                res.render('pages/recipe', {
-                    recipe: recipe_rows[0],
-                    user: user_rows[0],
-                    favorite: is_favorite,
-                });
             });
         });
     });
