@@ -22,10 +22,7 @@ module.exports = function(app, db, visits) {
                     res.status(400).json({"error":err.message});
                     return;
                 }
-                if (rows.length < 1) {
-                    res.status(400).send(`Es wurden keine favorisierten Rezepte gefunden.`);
-                    return;
-                }
+
                 let most_viewed = [];
                 if(req.cookies.user && visits[req.cookies.user]) {
                     let visitedRecipes = Object.entries(visits[req.cookies.user]).sort((a,b) => a[1] - b[1]);
