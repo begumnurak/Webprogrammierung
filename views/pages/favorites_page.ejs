@@ -18,13 +18,7 @@
                 <%- include('../partials/recipe_preview', {recipe: recipe}); %>
             <% }); %>
         </div>
-        <h2 class="font-bold text-2xl ">Am meisten angesehen</h2>
-        <p>Hier sind meist angezeigten Rezepte aufgelistet.</p>
-        <div id="recipes-container" class="flex flex-row flex-wrap justify-evenly">
-            <% mostViewed.forEach(function(recipe) { %>
-                <%- include('../partials/recipe_preview', {recipe: recipe}); %>
-            <% }); %>
-        </div>
+
         <br>
         <a class="underline text-blue-600 hover:text-blue-800 text-xl p-1 m-2" href="/">Zurück zur Startseite</a>
     </main>

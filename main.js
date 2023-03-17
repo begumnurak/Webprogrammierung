@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 })
 
 require('./routes/recipes.routes')(app, db, visits);
-require('./routes/landing_page.routes')(app, db);
+require('./routes/landing_page.routes')(app, db, visits);
 require('./routes/favorites.routes')(app, db, visits);
 
 app.post('/form/', (req, res) => {
