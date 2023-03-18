@@ -7,7 +7,7 @@ var db = require("./database/database.js");
 
 const app = express();
 const port = 3001;
-
+const visits  = {};
 //cookie middleware
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname + '/views'));
@@ -27,8 +27,9 @@ app.use((req, res, next) => {
     }
 })
 
-require('./routes/recipes.routes')(app, db);
-require('./routes/landing_page.routes')(app, db);
+require('./routes/recipes.routes')(app, db, visits);
+require('./routes/landing_page.routes')(app, db, visits);
+require('./routes/favorites.routes')(app, db, visits);
 
 app.post('/form/', (req, res) => {
   console.log(req.body)
