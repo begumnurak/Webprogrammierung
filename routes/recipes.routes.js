@@ -87,7 +87,7 @@ module.exports = function(app, db, visits) {
         var sql = "INSERT INTO recipes (rec_title, rec_ingredients, rec_needed_time, rec_instructions, rec_image_link, rec_cat_id) VALUES (?,?,?,?,?,?)";
         if (req.body.json && req.body.category) {
             let json = JSON.parse(req.body.json);
-            var params = [json.title, json.ingredients, json.needed_time, json.instructions, json.image, req.body.category];
+            var params = [json.title, json.ingredients, json.needed_time, json.instructions, json.image_link, req.body.category];
             db.run(sql, params, (err) => {
                 if (err) {
                     res.status(400).json({ "error": err.message });
